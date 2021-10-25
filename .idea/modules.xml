@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/APCSA/APCSA.iml" filepath="$PROJECT_DIR$/APCSA/APCSA.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Book/Book.iml" filepath="$PROJECT_DIR$/Book/Book.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BooleanPractice/BooleanPractice.iml" filepath="$PROJECT_DIR$/BooleanPractice/BooleanPractice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Box/Box.iml" filepath="$PROJECT_DIR$/Box/Box.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Circle/Circle.iml" filepath="$PROJECT_DIR$/Circle/Circle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CodePractice/CodePractice.iml" filepath="$PROJECT_DIR$/CodePractice/CodePractice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DataTypePractice/DataTypePractice.iml" filepath="$PROJECT_DIR$/DataTypePractice/DataTypePractice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/IdeaProjects.iml" filepath="$PROJECT_DIR$/.idea/IdeaProjects.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KotlinTest/KotlinTest.iml" filepath="$PROJECT_DIR$/KotlinTest/KotlinTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lab1/Lab1.iml" filepath="$PROJECT_DIR$/Lab1/Lab1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Library/Library.iml" filepath="$PROJECT_DIR$/Library/Library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MyString/MyString.iml" filepath="$PROJECT_DIR$/MyString/MyString.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PotatoHead/PotatoHead.iml" filepath="$PROJECT_DIR$/PotatoHead/PotatoHead.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PrimitiveTypesProject/PrimitiveTypesProject.iml" filepath="$PROJECT_DIR$/PrimitiveTypesProject/PrimitiveTypesProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Rectangle/Rectangle.iml" filepath="$PROJECT_DIR$/Rectangle/Rectangle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/StandardDeviation/StandardDeviation.iml" filepath="$PROJECT_DIR$/StandardDeviation/StandardDeviation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Turtle/Turtle.iml" filepath="$PROJECT_DIR$/Turtle/Turtle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/coins/coins.iml" filepath="$PROJECT_DIR$/coins/coins.iml" />
+      <module fileurl="file://$PROJECT_DIR$/exampleClass/exampleClass.iml" filepath="$PROJECT_DIR$/exampleClass/exampleClass.iml" />
+      <module fileurl="file://$PROJECT_DIR$/myRectangle/myRectangle.iml" filepath="$PROJECT_DIR$/myRectangle/myRectangle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/personExample/personExample.iml" filepath="$PROJECT_DIR$/personExample/personExample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/APCSA/tests/tests.iml" filepath="$PROJECT_DIR$/APCSA/tests/tests.iml" />
+    </modules>
+  </component>
+</project>
