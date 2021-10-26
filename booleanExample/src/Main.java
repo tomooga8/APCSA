@@ -1,7 +1,8 @@
 public class Main {
     public static boolean myTest(){
+        
         boolean test = 3 < 5;
-        if(test){
+        if (test){
             return true;
         }
         else {
