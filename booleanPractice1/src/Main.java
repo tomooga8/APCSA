@@ -7,11 +7,11 @@ public class Main {
         System.out.println(max(x,y,z));
         System.out.println(Math.max(x, Math.max(y,z)));
         System.out.println(isPerfectSquare(4));
+        System.out.println(whichQuadrant(3,-1));
 
         Scanner myScanner = new Scanner(System.in);
         System.out.println("Ask a question: ");
         myScanner.nextLine();
-        magic8Ball();
 
 
     }
@@ -31,6 +31,19 @@ public class Main {
             return true;
         } else {
             return false;
+        }
+    }
+    public static int whichQuadrant(double x, double y){
+        if (x > 0 && y > 0){
+            return 1;
+        } else if (x < 0 && y > 0){
+            return 2;
+        } else if (x < 0 && y < 0){
+            return 3;
+        } else if (x > 0 && y < 0){
+            return 4;
+        } else {
+            return 0;
         }
     }
 }

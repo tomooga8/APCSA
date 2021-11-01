@@ -40,7 +40,7 @@ public class Magic8Ball {
         if (randNum == 8){
             System.out.println("no lol <3");
         }
-        
+
 
     }
 }
