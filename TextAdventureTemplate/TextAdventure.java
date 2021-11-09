@@ -4,7 +4,7 @@ public class TextAdventure {
   //Instance variables of a class can also be objects
   FancyConsole console;
   Scanner inScanner;
-  Player ourHero; 
+  public Player ourHero;
 
   public TextAdventure(){
     //This creates the UI console that the user
