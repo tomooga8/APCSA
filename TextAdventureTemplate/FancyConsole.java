@@ -7,6 +7,8 @@ import java.io.*;
 import java.util.*;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 
 public class FancyConsole extends JFrame 
 {
@@ -28,15 +30,15 @@ public class FancyConsole extends JFrame
     guiWidth = width;
     guiHeight = height;
 
-	 
-	    // 2. set the System.in and System.out streams 
-	    System.setIn(inPipe); 
-	    try 
+
+	    // 2. set the System.in and System.out streams
+	    System.setIn(inPipe);
+	    try
       {
-	    	System.setOut(new PrintStream(new PipedOutputStream(outPipe), true)); 
-	    	inWriter = new PrintWriter(new PipedOutputStream(inPipe), true); 
+	    	System.setOut(new PrintStream(new PipedOutputStream(outPipe), true));
+	    	inWriter = new PrintWriter(new PipedOutputStream(inPipe), true);
 	    }
-	    catch(IOException e) 
+	    catch(IOException e)
       {
 	    	System.out.println("Error: " + e);
 	    	return;
@@ -46,16 +48,29 @@ public class FancyConsole extends JFrame
       JPanel panel = new JPanel(new BorderLayout());
       taOut = new JTextArea(20, 40);
       scrollPane = new JScrollPane(taOut);
-      panel.add(scrollPane, BorderLayout.CENTER);
+      panel.add(scrollPane, BorderLayout.SOUTH);
+
 
       consoleImage = new JLabel();
 
-      panel.add(consoleImage, BorderLayout.NORTH);
-	    
-	    add(panel);
+      panel.add(consoleImage, BorderLayout.CENTER);
+
+      JTextField playerStats = new JTextField(15);
+      SimpleAttributeSet attributeSet = new SimpleAttributeSet();
+      StyleConstants.setBold(attributeSet, true);
+      playerStats.setEditable(false);
+      playerStats.setText("Player Stats: ");
+      panel.add(playerStats, BorderLayout.EAST);
+      add(panel);
+
+
+
+//      JPanel playerStats = new JPanel(BorderLayout.EAST);
+//      JSplitPane splitPane = new JSplitPane(panel, )
+
 
     // to get the correct InputMap
-      int condition = JTextArea.WHEN_FOCUSED;  
+      int condition = JTextArea.WHEN_FOCUSED;
       // get our maps for binding from the chatEnterArea JTextArea
       InputMap inputMap = taOut.getInputMap(condition);
       ActionMap actionMap = taOut.getActionMap();
@@ -67,11 +82,11 @@ public class FancyConsole extends JFrame
       inputMap.put(enterStroke, enterStroke.toString());
 
       // tell action map just how we want to handle the enter key
-      actionMap.put(enterStroke.toString(), new AbstractAction() 
+      actionMap.put(enterStroke.toString(), new AbstractAction()
       {
 
          @Override
-         public void actionPerformed(ActionEvent arg0) 
+         public void actionPerformed(ActionEvent arg0)
          {
            // handle input (on enter key)
             String text = taOut.getText();
@@ -86,16 +101,16 @@ public class FancyConsole extends JFrame
             {
                 inputText = null;
             }
-            
+
             consoleText = text;
 
-            inWriter.println(inputText); 
+            inWriter.println(inputText);
          }
       });
 
-    CaretListener caretListen = new CaretListener() 
+    CaretListener caretListen = new CaretListener()
     {
-      public void caretUpdate(CaretEvent caretEvent) 
+      public void caretUpdate(CaretEvent caretEvent)
       {
         int caretPos = caretEvent.getDot();
         if (caretPos < consoleText.length())
@@ -105,27 +120,27 @@ public class FancyConsole extends JFrame
         }
       }
     };
-	  
+
     taOut.addCaretListener(caretListen);
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
 		setSize(guiWidth, guiHeight);
-		
-	    new SwingWorker<Void, String>() 
-      { 
-	         protected Void doInBackground() throws Exception 
-           { 
+
+	    new SwingWorker<Void, String>()
+      {
+	         protected Void doInBackground() throws Exception
+           {
 	            Scanner s = new Scanner(outPipe);
-	            while (s.hasNextLine()) 
+	            while (s.hasNextLine())
               {
 	            		 String line = s.nextLine();
 		            	 publish(line);
 	            }
-	            return null; 
-	        } 
-	         @Override protected void process(java.util.List<String> chunks) 
-           { 
+	            return null;
+	        }
+	         @Override protected void process(java.util.List<String> chunks)
+           {
              // Handle output
                for (String line : chunks)
                {
@@ -133,9 +148,9 @@ public class FancyConsole extends JFrame
                }
 
                consoleText = taOut.getText();
-	         } 
+	         }
 
-	    }.execute(); 
+	    }.execute();
 
 	}
 
