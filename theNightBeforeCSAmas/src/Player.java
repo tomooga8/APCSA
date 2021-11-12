@@ -9,9 +9,9 @@ public class Player
     double gold;
     int points;
 
-    public Player(String playerName)
+    public Player()
     {
-        name = playerName;
+        name = null; //gets set later when asked in textAdventure
         health = 10;
         points = 0;
     }

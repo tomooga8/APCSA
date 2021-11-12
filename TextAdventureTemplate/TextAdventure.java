@@ -11,7 +11,7 @@ public class TextAdventure {
   public TextAdventure(){
     //This creates the UI console that the user
     //can type in
-    console = new FancyConsole("Great Text Adventure!", 1000, 1000);
+    console = new FancyConsole();
     inScanner = new Scanner(System.in);
 
     //feel free to change the player's starting values
