@@ -6,7 +6,8 @@ public class TextAdventure {
     //Instance variables of a class can also be objects
     FancyConsole console;
     Scanner inScanner;
-    public Player ourHero = new Player();
+    Player ourHero = new Player();
+    String input;
 
     public TextAdventure(){
         //This creates the UI console that the user
@@ -14,16 +15,17 @@ public class TextAdventure {
         console = new FancyConsole();
         inScanner = new Scanner(System.in);
 
+
         //feel free to change the player's starting values
         //depending on your story
 
     }
 
     public void play() throws InterruptedException {
-        String input;
+
         //Start of adventure. You can change this if you like
         //You can also import your own images!
-        console.setImage("forest.jpg");
+        console.setImage("code.jpeg");
 
         // ask the user for their name.
         System.out.println("What is your name?\n");
@@ -34,45 +36,59 @@ public class TextAdventure {
         ourHero.changeName(input);
         // describe the starting situation. Feel free to change this as well
         System.out.println("Hi " + ourHero.getName());
-        console.setImage("classroom.jpg");
-        System.out.println("You wake up in an empty classroom, \nits dark and it cold, you can see the door to the hallway. \n" +
-                "As you walk into the hallway, you can either go \nstraight, left or right, which way do you want to go?");
-
-        console.setImage("hallway.jpg");
+        TimeUnit.SECONDS.sleep(1);
+        console.setImage("spookyclassroom.jpeg");
+        System.out.println("You wake up in an empty classroom, \nits dark and it cold, you can see the door to the hallway. \n");
+        TimeUnit.SECONDS.sleep(1);
+        System.out.println("As you walk into the hallway, you can either go \nstraight, left or right, which way do you want to go?");
         System.out.println("A. Straight\nB. Left\nC. Right");
         System.out.println("Enter Choice: ");
         input = inScanner.nextLine();
         if (input.equals("A")) enterZone1();
-        else if (input.equals("B")) enterZone2();
-        else if (input.equals("C")) enterZone3();
+        else if (input.equals("A")) enterZone1();
+        else if (input.equals("A")) enterZone1();
 
-        // get user input and go to the appropriate zone based on their input
-        // ADD CODE HERE
+        //all options lead to the same place...
 
     }
 
     private void enterZone1() throws InterruptedException {
-        TimeUnit.MILLISECONDS.sleep(500);
+        TimeUnit.SECONDS.sleep(1);
         // change image
         console.setImage("priya.jpeg");
         // ADD CODE HERE
         System.out.println("A wild Priya appears!! She uses her Private Primitive Pistol to try and attack you!");
         System.out.println("What do you counter with?");
+        TimeUnit.SECONDS.sleep(1);
         System.out.println("A. Access Modifier Defense");
-        System.out.println("B. ");
-        // describe the area/situation to the user.
-        // Give them options for choices.
-        // ADD CODE HERE
-        System.out.println("this is Zone 1");
-        // Take action or go to another zone based on their choice
-        // ADD CODE HERE
+        System.out.println("B. A Null Nunchuck");
+        System.out.println("C. A true boolean trap");
+        System.out.println("D. A super static sickle\n");
+
+        do {
+            System.out.println("What do you choose? \n");
+            TimeUnit.SECONDS.sleep(1);
+            input = inScanner.nextLine();
+            if (input.equals("B") || input.equals("C") || input.equals("D")) { //would be easier to use a not statement but used or statements to satisfy rubric requirement
+                System.out.println("Oh no! You're counter move did not work!\n");
+                ourHero.takeDamage();
+            }
+        } while (!input.equals("A"));
+
+        System.out.println("You're countermove was effective! Priya is now incapacitated.\n");
+        console.setImage("priyaIncapacitated.jpg");
+
+        TimeUnit.SECONDS.sleep(1);
+
+
+
 
     }
 
     private void enterZone2(){
         // change image
         // ADD CODE HERE
-        System.out.println("This is zone 2"); //boolean blaster for Simran
+        System.out.println("This is zone 2"); //boolean bazooka for Simran
         // describe the area/situation to the user.
         // Give them options for choices.
         // ADD CODE HERE
@@ -85,7 +101,7 @@ public class TextAdventure {
     private void enterZone3(){
         // change image
         // ADD CODE HERE
-        System.out.println("This is zone 3");
+        System.out.println("This is zone 3"); //Static Sythe
         // describe the area/situation to the user.
         // Give them options for choices.
         // ADD CODE HERE

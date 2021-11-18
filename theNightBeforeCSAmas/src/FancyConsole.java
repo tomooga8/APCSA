@@ -1,20 +1,17 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
-import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.*;
-import java.util.Objects;
 import java.util.Scanner;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
 
 public class FancyConsole {
-    JFrame window;
+    JFrame window, gameWindow;
     JPanel titlePanel, titleShadowPanel, startButtonPanel, iconPanel; //title screen Jpanels
     JPanel imagePanel,imageTitlePanel, imageFramePanel;
     JLabel titleLabel, iconLabel;
@@ -41,6 +38,15 @@ public class FancyConsole {
     Color darkerLilac = new Color(202, 164, 255);
 
     FancyConsole(){
+        //setting up input and output streams
+        System.setIn(inPipe);
+        try {
+            System.setOut(new PrintStream(new PipedOutputStream(outPipe), true));
+            inWriter = new PrintWriter(new PipedOutputStream(inPipe), true);
+        } catch (IOException e) {
+            System.out.println("Error: " + e);
+            return;
+        }
         //making a frame for game
         window = new JFrame("The Night Before CSAmas");
         window.setSize(800, 600);
@@ -100,15 +106,10 @@ public class FancyConsole {
 
     }
     public void enterGameScreen() {
-        //setting up input and output streams
-        System.setIn(inPipe);
-        try {
-            System.setOut(new PrintStream(new PipedOutputStream(outPipe), true));
-            inWriter = new PrintWriter(new PipedOutputStream(inPipe), true);
-        } catch (IOException e) {
-            System.out.println("Error: " + e);
-            return;
-        }
+
+        gameWindow = new JFrame();
+        gameWindow.setLayout(null);
+        gameWindow.getContentPane().setBackground(lilac);
 
         titlePanel.setVisible(false);
         titleShadowPanel.setVisible(false);
@@ -127,61 +128,114 @@ public class FancyConsole {
 
         consoleText = "";
         console = new JPanel();
-        console.setBounds(16, 425, 496, 200);
+        console.setBounds(16, 425, 496, 125);
         console.setBackground(Color.white);
-        taOut = new JTextArea(8, 48);
-        taOut.setFont(new Font("American Typewriter", Font.PLAIN, 10));
+        taOut = new JTextArea(8, 40);
+        taOut.setFont(new Font("American Typewriter", Font.PLAIN, 12));
         taOut.setForeground(new Color(163, 94, 255));
         scrollPane = new JScrollPane(taOut);
         scrollPane.setBorder(createEmptyBorder());
-
         console.add(scrollPane);
-        window.add(imageFramePanel);
-        window.add(imagePanel);
-        window.add(console);
 
+        gameWindow.add(imageFramePanel);
+        gameWindow.add(imagePanel);
+        gameWindow.add(console);
 
-    }
-    //implementing a console method
-    private void updateTextArea(final String text) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                taOut.append(text);
+        // to get the correct InputMap
+        int condition = JTextArea.WHEN_FOCUSED;
+        // get our maps for binding from the chatEnterArea JTextArea
+        InputMap inputMap = taOut.getInputMap(condition);
+        ActionMap actionMap = taOut.getActionMap();
+
+        // the keystroke we want to capture
+        KeyStroke enterStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
+
+        // tell input map that we are handling the enter key
+        inputMap.put(enterStroke, enterStroke.toString());
+
+        // tell action map just how we want to handle the enter key
+        actionMap.put(enterStroke.toString(), new AbstractAction()
+        {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0)
+            {
+                // handle input (on enter key)
+                String text = taOut.getText();
+                String inputText;
+                int currLength = text.length();
+                int oldLength = consoleText.length();
+                if (currLength > oldLength)
+                {
+                    inputText = text.substring(oldLength, currLength);
+                }
+                else
+                {
+                    inputText = null;
+                }
+
+                consoleText = text;
+
+                inWriter.println(inputText);
             }
         });
-    }
 
-    private void redirectSystemStreams() {
-        OutputStream out = new OutputStream() {
-            @Override
-            public void write(int b) throws IOException {
-                updateTextArea(String.valueOf((char) b));
-            }
-
-            @Override
-            public void write(byte[] b, int off, int len) throws IOException {
-                updateTextArea(new String(b, off, len));
-            }
-
-            @Override
-            public void write(byte[] b) throws IOException {
-                write(b, 0, b.length);
+        CaretListener caretListen = new CaretListener()
+        {
+            public void caretUpdate(CaretEvent caretEvent)
+            {
+                int caretPos = caretEvent.getDot();
+                if (caretPos < consoleText.length())
+                {
+                    // prevent cursor from going into console output
+                    taOut.setCaretPosition(consoleText.length());
+                }
             }
         };
 
-        System.setOut(new PrintStream(out, true));
-        System.setErr(new PrintStream(out, true));
+        taOut.addCaretListener(caretListen);
+
+        gameWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        gameWindow.setVisible(true);
+        gameWindow.setSize(800,600);
+
+        new SwingWorker<Void, String>()
+        {
+            protected Void doInBackground() throws Exception
+            {
+                Scanner s = new Scanner(outPipe);
+                while (s.hasNextLine())
+                {
+                    String line = s.nextLine();
+                    publish(line);
+                }
+                return null;
+            }
+            @Override protected void process(java.util.List<String> chunks)
+            {
+                // Handle output
+                for (String line : chunks)
+                {
+                    taOut.append("\n" + line);
+                }
+
+                consoleText = taOut.getText();
+            }
+
+        }.execute();
     }
+
 
     public class TitleScreenHandler implements ActionListener{
         public void actionPerformed(ActionEvent event){
+            window.dispose();
             enterGameScreen();
         }
     }
 
     public void setImage(String newImage)
     {
-        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("forest.jpeg"));
+        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource(newImage));
         Image img = imageIcon.getImage();
         Image scaledImg = img.getScaledInstance(496,393,java.awt.Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImg);
