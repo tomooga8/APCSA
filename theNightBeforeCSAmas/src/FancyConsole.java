@@ -10,7 +10,8 @@ import java.util.Scanner;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
 
-public class FancyConsole {
+public class FancyConsole extends JFrame{
+    //All of my panels and everything that goes in a JFrame
     JFrame window, gameWindow;
     JPanel titlePanel, titleShadowPanel, startButtonPanel, iconPanel; //title screen Jpanels
     JPanel imagePanel,imageTitlePanel, imageFramePanel;
@@ -27,6 +28,7 @@ public class FancyConsole {
     JTextArea taOut;
     JScrollPane scrollPane;
 
+    //input and output streams for console part
     private final PipedInputStream inPipe = new PipedInputStream();
     private final PipedInputStream outPipe = new PipedInputStream();
     PrintWriter inWriter;
@@ -68,22 +70,25 @@ public class FancyConsole {
         titlePanel.add(titleLabel, BorderLayout.CENTER);
         window.add(titlePanel);
 
+        //adds a stylistic shadow to the main titlePanel
         titleShadowPanel = new JPanel();
         titleShadowPanel.setBounds(125,125, 600, 150);
         titleShadowPanel.setBackground(darkerLilac);
         window.add(titleShadowPanel);
 
+        //button pannel
         startButtonPanel = new JPanel();
         startButtonPanel.setBounds(300, 500, 200, 50);
         startButtonPanel.setBackground(lilac);
 
-
+        //button placed in button pannel
         startButton = new JButton("start");
         startButton.setBackground(Color.white);
         startButton.setForeground(lilac);
         startButton.setFont(normalFont);
         startButton.addActionListener(tsHandler);
 
+        //startButton added to button pannel and pannel added to window
         startButtonPanel.add(startButton);
         window.add(startButtonPanel);
 
@@ -91,7 +96,7 @@ public class FancyConsole {
         iconPanel.setBounds(300, 300, 200, 200);
         iconPanel.setBackground(lilac);
 
-
+        //sets icon for title page to priya
         ImageIcon priya = new ImageIcon(this.getClass().getResource("priya.png"));
         Image imagePriya = priya.getImage();
         Image scaledImagePriya = imagePriya.getScaledInstance(200,210, Image.SCALE_SMOOTH);
@@ -101,12 +106,13 @@ public class FancyConsole {
         iconPanel.add(iconLabel);
         window.add(iconPanel);
 
-        window.setVisible(true);
+        window.setVisible(true); //sets the entire window visible
 
 
     }
     public void enterGameScreen() {
-
+        //new window
+        //creating all the styling and panels for console and image
         gameWindow = new JFrame();
         gameWindow.setLayout(null);
         gameWindow.getContentPane().setBackground(lilac);
@@ -225,7 +231,7 @@ public class FancyConsole {
         }.execute();
     }
 
-
+    //on button click the title window gets disposed and the gamescreen window pops up
     public class TitleScreenHandler implements ActionListener{
         public void actionPerformed(ActionEvent event){
             window.dispose();

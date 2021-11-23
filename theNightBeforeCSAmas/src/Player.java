@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Player
 {
@@ -7,13 +8,11 @@ public class Player
     String name;
     int health;
     double gold;
-    int points;
 
     public Player()
     {
         name = null; //gets set later when asked in textAdventure
         health = 10;
-        points = 0;
     }
 
 
@@ -35,13 +34,19 @@ public class Player
     }
 
 
-    public void takeDamage() {
-        health -= 2;
-        if (health <= 0) {
-            //game end function to be made in TextAdventure
-        }
-    }
+    public void takeDamage(int num) throws InterruptedException {
+        health -= num;
 
-    public void gainExamPoint(double newAmount) {points++;}
+        if (health <= 0) {
+            System.out.println("You have run out of health. Game Over. Would you like to retry? (Y/N)");
+            String input = new Scanner(System.in).nextLine();
+            if (input.equals("Y")) Main.adventure.play();
+            else {
+                System.out.println("Okay! See you later! ");
+                TimeUnit.SECONDS.sleep(1);
+                Main.adventure.console.gameWindow.dispose();
+            }
+        } else System.out.println("You're new health is: " + health);
+    }
 
 }
